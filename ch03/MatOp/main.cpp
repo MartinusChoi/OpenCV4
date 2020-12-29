@@ -109,10 +109,69 @@ void MatOp2() { //행렬 객체를 다른 행렬 객체에 대입하거나 복�
 	img1.setTo(Scalar(0, 255, 255)); // 노란색으로 img1 설정
 
 	imshow("img1", img1);
-	imshow("img2", img2);
-	imshow("img3", img3);
-	imshow("img4", img4);
-	imshow("img5", img5);
+	imshow("img2", img2); // 얕은 복사 -> img1 과 함께 변함.
+	imshow("img3", img3); // 얕은 복사 -> img1 과 함께 변함.
+	imshow("img4", img4); // 깊은 복사 -> img1 가 변해도 변하지 않음.
+	imshow("img5", img5); // 깊은 복사 -> img1 가 변해도 변하지 않음.
+
+	waitKey();
+	destroyAllWindows();
+}
+
+void MatOp3() { // 영상에서 사각형 모양의 부분 영상을 추출하거나 참조하는 다양한 방법
+
+	// Mat 클래스에 저장된 영상에서 사각형 모양의 부분 영상 추출 //
+
+	Mat img1 = imread("cat.bmp");
+
+	if (img1.empty()) {
+		cerr << "Image load failed!" << endl;
+		return;
+	}
+
+	// 괄호 연산자 재정의
+	// Rect 클래스 -> (220, 120) 부터 340x240(widthxheight) 만큼의 부분 영상을 img2에 저장
+	// Mat 클래스의 괄호 연산자를 이용하여 얻은 부분 영상은 "얕은 복사" 형식임
+	// 이를 이용하여 영상의 특정 부분에만 영상 처리를 수행할 수 있음. -> 픽셀 데이터를 공유하기 때문.
+	// 이러한 Mat 클래스의 부분 영상 참조 기능은 입력 영상에 "ROI(Region Of Interest)"를 설정하는 용도로 사용가능
+	Mat img2 = img1(Rect(220, 120, 340, 240)); // 얕은 복사
+	
+	// 독립된 메모리 영역 확보하여 부분영상 추출
+	// Mat::clone 활용하기
+	Mat img3 = img1(Rect(220, 120, 340, 240)).clone();
+
+	// Mat 행렬에서 특정 범위의 행을 참조/추출
+	Mat img4 = img1.rowRange(120, 361); // 참조(얕은 복사)
+	Mat img5 = img1.rowRange(Range(120, 361)).clone(); //추출(깊은 복사)
+
+	// Mat 행렬에서 특정 범위의 열을 참조/추출
+	Mat img6 = img1.colRange(220, 561); // 참조(얕은 복사)
+	Mat img7 = img1.colRange(Range(220, 561)).clone(); // 추출(깊은 복사)
+
+	// Mat 행렬에서 하나의 행을 참조/추출
+	Mat img8 = img1.row(120); // 참조(얕은 복사)
+	Mat img9 = img1.row(120).clone(); // 추출(깊은 복사)
+
+	// Mat 행렬에서 하나의 열을 참조/추출
+	Mat img10 = img1.col(220); // 참조(얕은 복사)
+	Mat img11 = img1.col(220).clone(); // 추출(깊은 복사)
+
+	// 얕은 복사의 특성을 이용한 영상의 부분에만 반전 처리하기
+	// 컬러 영상의 경우 각각의 색상 성분에 대해 반전을 수행
+	// ~ 연산자를 붙이는 방식으로 적용가능.
+	img2 = ~img2;
+
+	imshow("image1", img1); // 원본 영상
+	imshow("image2", img2); // ROI (얕은 복사로 부분영상 참조)
+	imshow("image3", img3); // 깊은 복사로 부분영상 추출
+	imshow("image4", img4); // 특정 범위 행 참조 (ROI의 모든 열, 얕은 복사)
+	imshow("image5", img5); // 특정 범위 행 추출 (ROI의 모든 열, 깊은 복사)
+	imshow("image6", img6); // 특정 범위 열 참조 (ROI의 모든 행, 얕은 복사)
+	imshow("image7", img7); // 특정 범위 열 추출 (ROI의 모든 행, 깊은 복사)
+	imshow("image8", img8); // 하나의 행 참조
+	imshow("image9", img9); // 하나의 행 추출
+	imshow("image10", img10); // 하나의 열 참조
+	imshow("image11", img11); // 하나의 열 추출
 
 	waitKey();
 	destroyAllWindows();
@@ -121,4 +180,5 @@ void MatOp2() { //행렬 객체를 다른 행렬 객체에 대입하거나 복�
 int main() {
 	MatOp1();
 	MatOp2();
+	MatOp3();
 }
