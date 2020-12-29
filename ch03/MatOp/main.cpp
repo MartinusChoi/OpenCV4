@@ -4,7 +4,7 @@
 using namespace cv;
 using namespace std;
 
-void MatOp1() {
+void MatOp1() { // 행렬을 생성하고 초기화하는 다양한 방법
 	
 	// 기본 생성자 -> 아무런 인자를 받지 않음 //
 
@@ -73,6 +73,52 @@ void MatOp1() {
 	mat5.setTo(1.f);
 }
 
+void MatOp2() { //행렬 객체를 다른 행렬 객체에 대입하거나 복사하는 다양한 방법.
+	Mat img1 = imread("dog.bmp");
+
+	// 복사 생성자 or 대입 연산자 사용 //
+
+	// 복사 생성자 사용
+	// 복사 생성자 -> img1과 같은 크기, 타입의 Mat 객체 img2를 생성하고,
+	// img1의 픽셀 데이터를 img2가 참조하도록 함 -> 즉, 하나의 영상을 공유하는 서로 다른 객체가 됨,
+	// 이를 "얕은 복사(shallow copy)"라고 함.
+	Mat img2 = img1; // 복사 생성자(얕은 복사)
+
+	// 대입 연산자 사용
+	// 마찬가지로 "얕은 복사"가 이루어짐.
+	Mat img3;
+	img3 = img1;
+
+
+	// 얕은 복사 가 아닌 메모리 공간을 새로 할당하여 픽셀 데이터 전체를 복사하는 경우 //
+	// 깊은 복사(deep copy)
+	// Mat::clone() 또는 Mat::copyTo()를 사용
+
+	// Mat::clone() -> 자기 자신과 동일한 Mat 객체를 완전히 새로 만들어서 반환.
+	Mat img4 = img1.clone(); // 깊은 복사
+
+	// Mat::copyTo() -> 인자로 전달된 행렬에 자기 자신을 복사
+	// 호출한 행렬과 인자로 전달될 행렬이 서로 크기와 타입이 같으면 -> 원소 값 복사만 수행
+	// 크기와 타입이 다르면 -> 행렬을 새로 생성한 후 메모리를 새로 할당하여 픽셀 값을 복사.
+	Mat img5;
+	img1.copyTo(img5); // 깊은 복사
+
+
+	// 깊은 복사와 얕은 복사의 차이 //
+
+	img1.setTo(Scalar(0, 255, 255)); // 노란색으로 img1 설정
+
+	imshow("img1", img1);
+	imshow("img2", img2);
+	imshow("img3", img3);
+	imshow("img4", img4);
+	imshow("img5", img5);
+
+	waitKey();
+	destroyAllWindows();
+}
+
 int main() {
 	MatOp1();
+	MatOp2();
 }
