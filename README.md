@@ -16,8 +16,8 @@ Study Computer Vision with OpenCV version 4.5.1
       - 학습한 주요 함수로 화면에 영상을 띄우는 실습을 진행합니다.
 
 - **ch03** ; OpenCV 주요 클래스를 학습합니다.
-  - MatOp
-    - main.cpp ; Mat 클래스에 대해 학습 및 실습을 진행한 OpenCV 프로그램 프로젝트입니다.
+  - MatOp ; Mat 클래스에 대해 학습 및 실습을 진행한 OpenCV 응용 프로그램입니다.
+    - main.cpp
       - MatOp1() 함수
         - 행렬을 생성하고 초기화하는 다양한 방법을 실습합니다.
       - MatOp2() 함수
@@ -30,5 +30,11 @@ Study Computer Vision with OpenCV version 4.5.1
         - Mat 클래스로 생성한 행렬 객체의 속성을 참조하는 방법을 실습합니다.
       - MatOp6() 함수
         - Mat 클래스에서 제공하는 다양한 행렬 연산에 대해 실습합니다.
+      - MatOp7() 함수
+        - Mat 클래스의 크기 또는 타입을 변화시키는 멤버 함수들을 실습합니다.
+  - ScalarOp ; Scalar 클래스에 대해 학습 및 실습을 진행한 OpenCV 응용 프로그램입니다.
+    - main.cpp
+      - ScalarOp() 함수
+        - Scalar 클래스 객체의 생성 및 초기화 및 활용법을 학습하고 실습합니다.
   - Ch03_OpenCV_Classes.pdf
     - OpenCV의 주요 클래스에 대해 정리합니다.
