@@ -278,10 +278,91 @@ void MatOp5() { // Mat 클래스를 이용하여 생성한 행렬 객체로부�
 	cout << "mat1 : \n" << mat1 << endl;
 }
 
+void MatOp6() { // Mat 클래스를 이요한 기본적인 행렬 연산, 역행렬, 전치 행렬 구하기
+
+	float data[] = { 1, 1, 2, 3 };
+	Mat mat1(2, 2, CV_32FC1, data);
+	cout << "mat1 : \n " << mat1 << endl;
+
+	// OpenCV에서는 행렬 연산을 위한 다양한 연사자 재정의 함수 제공
+	// 각 사칙연산 연산자 재정의 함수의 반환형은 MatExpr
+	// MatExpr -> Mat 객체, Scalar 객체, int, float, double 등 기본 자료형으로 구성된 행렬 표현
+	// 복사 생성자 혹은 대입 연산자에 의해 Mat 객체로 변환 가능
+
+	// mat3 = mat1 + mat2
+	// mat3 = mat1 - mat2
+	// -> 행렬 사이 덧셈 및 뺄셀 연산
+
+	// mat3 = mat1 + s1
+	// mat3 = mat1 - s1
+	// mat3 = s1 + mat1
+	// mat3 = s1 - mat1
+	// -> 행렬과 스칼라 값 사이의 덧셈과 뺄셈 연산
+
+	// mat3 = -mat1
+	// -> mat1 행렬의 각 원소에 -1을 곱함
+
+	// mat3 = mat1 * mat2
+	// -> 행렬의 곱셈 연산 수행(원소간 곱셈 x)
+
+	// mat3 = mat1 * d1
+	// mat3 = d1 * mat1
+	// 행렬의 각 원소에 스칼라 값을 곱함
+
+	// mat3 = mat1 / mat2
+	// -> 두 행렬의 같은 위치 원소끼리 나눗셈 연산
+
+	// mat3 = mat1 / d1
+	// mat3 = d1 / mat1
+	// 행렬의 각 원소와 실수 끼리 나눗셈 연산 수행
+
+	// 행렬 간 원소 간 곱셈 수행
+	// Mat::mul() 멤버 함수 이용
+	// Mat::mul(InputArray m, double scale=1)
+
+	// 역행렬 구하기
+	// Mat::inv() 멤버 함수 이용
+	// Mat::inv(int method=DECOMP_LU)
+	// method
+	// -> DECOMP_LU ; 가우스 소거법을 이용
+	// -> DECOMP_SVD ; 특잇값 분해를 이용하여 "의사 역행렬(pseudo-inverse matrix)" 반환
+	// -> DECOMP_EIG ; 고윳값 분해 이용
+	// -> DECOMP_CHOLESKY ; 촐레스키 분해 이용
+	Mat mat2 = mat1.inv();
+	cout << "mat2 : \n" << mat2 << endl;
+
+	// 전치 행렬 구하기
+	// Mat::t() 멤버 함수 사용
+	cout << "mat1.t() : \n" << mat1.t() << endl;
+
+	cout << "mat1 + mat2 : \n" << mat1 + mat2 << endl;
+	cout << "mat1 - mat2 : \n" << mat1 - mat2 << endl;
+
+	cout << "mat1 + 3 : \n" << mat1 + 3 << endl;
+	cout << "mat1 - 3 : \n" << mat1 - 3 << endl;
+	cout << "3 + mat1 : \n" << 3 + mat1 << endl;
+	cout << "3 - mat1 : \n" << 3 - mat1 << endl;
+
+	cout << "-mat1 : \n" << -mat1 << endl;
+
+	cout << "mat1 * mat2 : \n" << mat1 * mat2 << endl;
+
+	cout << "mat1 * 3 : \n" << mat1 * 3 << endl;
+	cout << "3 * mat1 : \n" << 3 * mat1 << endl;
+
+	cout << "mat1 / mat2 : \n" << mat1 / mat2 << endl;
+
+	cout << "mat1 / 3 : \n" << mat1 / 3 << endl;
+	cout << "3 / mat1 : \n" << 3 / mat1 << endl;
+
+	cout << "mat1.mul(mat2) : \n" << mat1.mul(mat2) << endl;
+}
+
 int main() {
 	MatOp1();
 	MatOp2();
 	MatOp3();
 	MatOp4();
 	MatOp5();
+	MatOp6();
 }
