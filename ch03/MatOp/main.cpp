@@ -232,9 +232,56 @@ void MatOp4() { // 픽셀(행렬 원소) 값 접근 방법 세가지
 	cout << "mat1:\n" << mat1 << endl;
 }
 
+void MatOp5() { // Mat 클래스를 이용하여 생성한 행렬 객체로부터 다양한 정보를 참조하는 방법
+	
+	Mat img1 = imread("lenna.bmp");
+
+	// Mat 클래스 멤버 변수를 직접 참조 //
+
+	// 행렬/영상의 크기정보
+	// Mat::rows -> 행 개수(세로 픽셀 수), Mat::cols -> 열 개수(가로 픽셀 수)
+	// 둘 모두 public 접근 지시자 -> 외부에서 직접 접근 가능
+	cout << "Width : " << img1.cols << endl; // 영상의 가로 크기
+	cout << "Height : " << img1.rows << endl; // 영상의 세로 크기
+
+	// Mat::data 멤버 변수 -> 행렬 원소 데이터가 저장되어있는 메모리 공간의 시작 주소를 가리키는 포인터
+	// 포인터 연산을 잘못 하면 에러가 발생하므로 Mat::at() 이나 Mat::ptr() 을 이용한 연산을 하는 것이 좋음.
+
+	// Mat::chnnels() ; 행렬의 채널 수 반환
+	// Mat::depth() ; 행렬의 깊이를 반환( CV_8U, CV_32F ...)
+	// Mat::elemSize() ; 한 개의 원소가 차지하는 메모리크기를 바이트 단위 반환(CV_32SC3 -> 4(32bit) x 3(channels) = 12 반환)
+	// Mat::empty() ; 비어 있는 행렬이면 true 반환
+	// Mat::isContinuous ; 각 행의 원소가 연속적으로 저장되어있으면 true 반환
+	// Mat::isSubmatrix() ; 행렬이 다른 행렬의 부분 행렬이면 true 반환
+	// Mat::size() ; 행렬 크기를 Size 타입으로 반환
+	// Mat::total() ; 전체 원소의 개수 반환
+	// Mat::type() ; 행렬의 타입을 반환(CV_32FC1, CV_8UC3)
+
+	// 아래에서 img1은 imread() 사용 시 두 번째 인자를 설정하지 않았기 때문에
+	// 자동으로 IMREAD_COLOR가 지정되어 truecolor 영상으로 불러옴.
+	if (img1.type() == CV_8UC1) { // 영상이 grayscale 이면
+		cout << "img1 is grayscale image." << endl;
+	}
+	else if (img1.type() == CV_8UC3) { // 영상이 3 channels truecolor 영상이면
+		cout << "img1 is truecolor image." << endl;
+	}
+
+	// Mat 객체에 저장된 행렬 속성이 아닌 원소 값을 직접 확인 하고 싶을 경우 //
+
+	// Mat 클래스에 저장된 객체가 영상 -> imshow() 함수를 이용하여 화면에 표시 가능 (uchar 자료형)
+	// Mat 객체에 int, float, double 자료형의 행렬이 저장되어있는 경우 -> imshow() 불가능
+	// 이럴 때 C++ 표준 출력 스트림 std::cout를 이용.
+
+	float data[] = { 2.f, 1.414f, 3.f, 1.732f };
+	Mat mat1(2, 2, CV_32FC1, data);
+
+	cout << "mat1 : \n" << mat1 << endl;
+}
+
 int main() {
 	MatOp1();
 	MatOp2();
 	MatOp3();
 	MatOp4();
+	MatOp5();
 }
