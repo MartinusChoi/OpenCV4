@@ -36,5 +36,11 @@ Study Computer Vision with OpenCV version 4.5.1
     - main.cpp
       - ScalarOp() 함수
         - Scalar 클래스 객체의 생성 및 초기화 및 활용법을 학습하고 실습합니다.
+  - InputArrayOp ; InputArray 클래스에 대해 학습 및 실습을 진행한 OpenCV 응용 프로그램입니다.
+    - main.cpp
+      - InputArrayOp() 함수
+        - 출력할 행렬 및 벡터를 생성하고 주로 함수 입력인자의 자료형으로 활용되는 InputArray 클래스를 활용해보기 위해 작성한 printMat() 함수를 호출하는 함수입니다.
+      - printMat() 함수
+        - InputArray 자료형인 입력 인자를 받아서 .getMat() 멤버 함수로 Mat 객체로 변환하고 이를 출력하는 함수입니다.
   - Ch03_OpenCV_Classes.pdf
     - OpenCV의 주요 클래스에 대해 정리합니다.
