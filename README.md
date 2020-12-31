@@ -28,5 +28,7 @@ Study Computer Vision with OpenCV version 4.5.1
         - 픽셀(행렬 원소) 값 접근 방법 3가지를 실습합니다.
       - MatOp5() 함수
         - Mat 클래스로 생성한 행렬 객체의 속성을 참조하는 방법을 실습합니다.
+      - MatOp6() 함수
+        - Mat 클래스에서 제공하는 다양한 행렬 연산에 대해 실습합니다.
   - Ch03_OpenCV_Classes.pdf
     - OpenCV의 주요 클래스에 대해 정리합니다.
