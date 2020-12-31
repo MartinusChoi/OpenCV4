@@ -358,6 +358,77 @@ void MatOp6() { // Mat 클래스를 이요한 기본적인 행렬 연산, 역행
 	cout << "mat1.mul(mat2) : \n" << mat1.mul(mat2) << endl;
 }
 
+void MatOp7() { // Mat 클래스의 크기 또는 타입을 변화시키는 멤버 함수들
+
+	Mat img1 = imread("lenna.bmp", IMREAD_GRAYSCALE);
+				
+	// 행렬의 타입 변경 //
+	
+	// Mat::convertTo()
+	// Mat::convertTo(OutputArray m, int rtype, double alpha=1, double betq=0) const;
+	// m ; 출력 행렬. 만약 m 행렬이 적절한 크기/타입이 아니라면 행렬 원소 데이터를 새로 할당
+	// rtype ; 원하는 출력 행렬 타입. 음수이면 입력행렬과 같은 타입을 설정
+	// alpha ; 추가적으로 곱할 값
+	// betq ; 추가적으로 더할 값
+	// m(x, y) = saturate_cast<rtype> (alphax(*this)(x,y)+beta) 의 수식으로 각 원소값 결정
+	Mat img1f;
+	img1.convertTo(img1f, CV_32FC1); // 1channel 32bit float type으로 변환
+
+
+	// 행렬의 크기 또는 채널 수 변경 // 
+
+	// Mat::reshape()
+	// Mat::reshape(int cn, int rows=0) const;
+	// cn ; 새로운 채널의 수 (이 값이 0이면 채널 수를 변경하지 x)
+	// rows ; 새로운 행의 수 (이 값이 0이면 채널 수를 변경하지 x)
+	// 하나의 행렬 원소 데이터를 같이 참조하는 행렬을 반환(즉, 얕은 복사를 통한 행렬 반환)
+	uchar data[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
+	Mat mat1(3, 4, CV_8UC1, data); //3x4 의 행렬 생성
+	Mat mat2 = mat1.reshape(0, 1); // 채널을 변경하지 않고(cn=0), 1개의 행을 가진 행렬로 변환(rows=1)
+
+	cout << "mat1 : \n" << mat1 << endl;
+	cout << "mat2 : \n" << mat2 << endl;
+
+	
+	// 행렬의 모양을 변경하지 않고 단순히 행렬의 행 크기를 변경 //
+
+	// Mat::resize()
+	// Mat::resize(size_t sz, const Scalar& s);
+	// sz ; 새로운 행 개수
+	// s ; 새로 추가되는 행 원소의 초기값
+	// sz 가 기존 행렬의 행 개수보다 작으면 아래쪽 행 제거.
+	// sz 가 기존 행렬의 행 개수보다 크면 아래쪽에 행 추가.
+	mat1.resize(5, 100);
+	cout << "resized : \n" << mat1 << endl;
+
+
+	// 이미 존재하는 행렬에 원소 데이터 추가 //
+
+	// Mat::push_back()
+	// template<typename _Tp> void Mat::push_back(const _Tp& elem);
+	// template<typename _Tp> void Mat::push_back(const Mat_<_Tp>& elem);
+	// template<typename _Tp> void Mat::push_back(const std::vector<_Tp>& elem);
+	// void Mat::push_back(const Mat& m);
+	// elem ; 행렬의 맨 마지막에 추가할 원소 데이터
+	// m ; 행렬의 맨 마지막 행에 추가할 행렬. (*this 와 타입과 열 개수가 같아야함.
+	// push_back() 함수 인자로 _Tp& 이나 std::vector<_Tp>& 타입 사용 -> *this 행렬이 1열짜리 행렬이어야 함.
+	// push_back() 함수 인자로 Mat_<_Tp>& 이나 Mat& 타입을 사용 -> *this 행렬과 인자로 전달된 m 행렬의 열 개수가 같아야 함.
+	Mat mat3 = Mat::ones(1, 4, CV_8UC1) * 255;
+	mat1.push_back(mat3);
+
+	cout << "mat1.push_back(mat3) : \n" << mat1 << endl;
+
+
+	// 행렬의 행 제거 //
+
+	// Mat::pop_back()
+	// Mat::pop_back(size_t nelems=1);
+	// nelems ; 제거할 행 개수
+	mat1.pop_back(3);
+
+	cout << "mat.pop_back(3) : \n" << mat1 << endl;
+}
+
 int main() {
 	MatOp1();
 	MatOp2();
@@ -365,4 +436,5 @@ int main() {
 	MatOp4();
 	MatOp5();
 	MatOp6();
+	MatOp7();
 }
