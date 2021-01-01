@@ -44,3 +44,9 @@ Study Computer Vision with OpenCV version 4.5.1
         - InputArray 자료형인 입력 인자를 받아서 .getMat() 멤버 함수로 Mat 객체로 변환하고 이를 출력하는 함수입니다.
   - Ch03_OpenCV_Classes.pdf
     - OpenCV의 주요 클래스에 대해 정리합니다.
+
+- **ch04** ; OpenCV의 주요 기능에 대해 학습합니다.
+  - Video ; VideoCapture 클래스를 이용한 카메라와 동영상의 입력과 출력에 대해 학습 및 실습을 진행한 OpenCV 응용 프로그램입니다.
+    - main.cpp
+      - camera_in() 함수
+        - 카메라 장치를 이용한 입력에 대한 처리를 실습합니다.
