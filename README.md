@@ -49,4 +49,8 @@ Study Computer Vision with OpenCV version 4.5.1
   - Video ; VideoCapture 클래스를 이용한 카메라와 동영상의 입력과 출력에 대해 학습 및 실습을 진행한 OpenCV 응용 프로그램입니다.
     - main.cpp
       - camera_in() 함수
-        - 카메라 장치를 이용한 입력에 대한 처리를 실습합니다.
+        - 카메라 장치를 이용한 입력에 대한 반전 처리를 실습합니다.
+      - video_in() 함수
+        - 동영상 파일을 입력받아 반전 처리하는 과정을 실습합니다.
+      - camera_in_video_out() 함수
+        - 카메라 장치로 부터 영상을 입력 받아 반전 처리한 동영상을 파일로 저장하는 과정을 실습합니다.
