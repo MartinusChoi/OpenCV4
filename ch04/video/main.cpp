@@ -19,6 +19,10 @@ void camera_in() { // VideoCapture 클래스를 이용하여 카메라로부터 
 		return;
 	}
 
+	// frame 정보 가져오기
+	cout << "Frame width : " << cvRound(cap.get(CAP_PROP_FRAME_WIDTH)) << endl;
+	cout << "Frame height : " << cvRound(cap.get(CAP_PROP_FRAME_HEIGHT)) << endl;
+
 	// 카메라 장치에서 프레임 받아오기
 	// 하나의 프레임 == 한 장의 정지영상 -> Mat 클래스 객체에 저장가능 -> imshow()로 출력 가능
 	// 카메라에서 일정 시간 간격마다 프레임을 받아와서 화면에 출력
@@ -42,9 +46,127 @@ void camera_in() { // VideoCapture 클래스를 이용하여 카메라로부터 
 	destroyAllWindows();
 }
 
+void video_in() { //VideoCapture 클래스를 이용하여 동영상 파일을 다루기
+
+	// 동영상 파일 열기
+	// VideoCapture 클래스를 이용한 동영상 재생 시에는 동영상에 포함된 오디오는 출력 x
+	VideoCapture cap("stopwatch.avi");
+
+	// 잘 열렸는 지 확인하기
+	if (!cap.isOpened()) {
+		cerr << "Video open failed!" << endl;
+		return;
+	}
+
+	// 동영상 파일은 나름대로의 초당 프레임수, FPS 값을 가짐.
+	// 동영상 파일을 재생하는 프로그램 작성시 이를 고려하지 않으면
+	// 영상이 너무 빠르거나 느리게 재생되는 경우가 발생함.
+	// 따라서 FPS 값을 참고하여 작성해야 함.
+	double fps = cap.get(CAP_PROP_FPS);
+
+	// 동영상의 FPS 값을 이용하여 프레임 사이의 시간 간격을 계산할 수 있음.
+	// 다음과 같이 계산 가능함.
+	// ex) fps 가 30인 동영상은 delay값이 33임. -> 매 프레임을 33ms 시간 간격으로 출력해야함을 의미
+	// 이 delay 값은 waitKey() 함수의 인자로 사용됨.
+	int delay = cvRound(1000 / fps);
+
+	cout << "Frame width : " << cvRound(cap.get(CAP_PROP_FRAME_WIDTH)) << endl;
+	cout << "Frame height : " << cvRound(cap.get(CAP_PROP_FRAME_HEIGHT)) << endl;
+	cout << "FPS : " << fps << endl;
+	cout << "Delay : " << delay << endl;
+
+	Mat frame, inversed;
+
+	while (true) {
+		cap >> frame;
+
+		if (frame.empty())
+			break;
+
+		inversed = ~frame;
+
+		imshow("frame", frame);
+		imshow("inversed", inversed);
+
+		if (waitKey(delay) == 27)
+			break;
+	}
+
+	destroyAllWindows();
+}
+
+void camera_in_video_out() { // VideoWriter 클래스를 이용하여 동영상 파일을 저장하기
+
+	// 새로운 동영상 파일 만들기 -> VideoWriter 클래스 객체 이용
+	// VideoWriter::VideoWriter(const String& filename, int fourcc, double fps, Size frame size, bool isColor = true);
+	// bool VideoWriter::open(const String& filename, int fourcc, double fps, Size frame size, bool isColor = true);
+	
+	// filename ; 저장할 동영상 파일 이름
+	// fourcc ; 동영상 압축 코덱을 표현하는 4-문자 코드 -> VideoWriter::fourcc() 함수를 사용하여 생성 가능.
+	//// static int VideoWriter::fourcc(char c1, char c2, char c3, char c4);
+	//// ex) DivX MPEG-4 코덱 사용하는 동영상 파일 생성 -> int fourcc = VideoWriter::fourcc('D', 'I', 'V', 'X');
+	// fps ; 저장할 동영상의 초당 프레임 수
+	// frameSize ; 동영상 프레임의 가로 및 세로 크기(Size 클래스 객체 전달)
+	// isColor ; ture이면 컬러 동영사응로 저장, false이면 그레이스케일 동영상으로 저장.-> Windows 운영체제만 지원
+	// 반환값 ; open() 함수를 여는 것에 성공하면 true, 실패하면 false
+
+	// 열려 있는 동영상 파일에 새로운 프레임 추가하기
+	// "<< 연산자 재정의" 또는 "VideoWriter::write() 함수"를 사용
+	// 프레임 추가시 새로 추가하는 imgae 프레밍 크기와 동영상 파일 생성시 지정했던 프레임 크기가 같아야함.
+	// 컬러로 설정된 동영상에 그레이스케일 영상 추가 시 정상적인 저장 불가능.
+
+	VideoCapture cap(0);
+
+	if (!cap.isOpened()) {
+		cerr << "Camera open failed!" << endl;
+		return;
+	}
+
+	int w = cvRound(cap.get(CAP_PROP_FRAME_WIDTH));
+	int h = cvRound(cap.get(CAP_PROP_FRAME_HEIGHT));
+	double fps = cap.get(CAP_PROP_FPS);
+	int delay = cvRound(1000 / fps);
+
+	cout << "Frame width : " << w << endl;
+	cout << "Frame height : " << h << endl;
+	cout << "FPS : " << fps << endl;
+	cout << "Delay : " << delay << endl;
+
+	int fourcc = VideoWriter::fourcc('D', 'I', 'V', 'X');
+	
+	VideoWriter outputVideo("output.avi", fourcc, fps, Size(w, h));
+
+	if (!outputVideo.isOpened()) {
+		cerr << "File open failed!" << endl;
+		return;
+	}
+
+	Mat frame, inversed;
+
+	while (true) {
+		cap >> frame;
+
+		if (frame.empty())
+			break;
+
+		inversed = ~frame;
+		outputVideo << inversed;
+
+		imshow("frame", frame);
+		imshow("inversed", inversed);
+
+		if (waitKey(delay) == 27)
+			break;
+	}
+
+	destroyAllWindows();
+}
+
 int main() { //VideoCapture 클래스
 
 	camera_in();
+	video_in();
+	camera_in_video_out();
 
 	// 동영상 -> 일련의 정지 영상을 압축하여 파일로 저장한 형태
 	// frame -> 동영상에 저장되어 있는 일련의 정지 영상
