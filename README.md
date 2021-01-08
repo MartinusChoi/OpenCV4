@@ -60,3 +60,12 @@ Study Computer Vision with OpenCV version 4.5.1
 | main.cpp | camera_in() | 카메라 장치를 이용한 입력에 대한 반전 처리를 실습합니다. |
 | - | video_in() | 동영상 파일을 입력받아 반전 처리하는 과정을 실습합니다. |
 | - | camera_in_video_out() | 카메라 장치로 부터 영상을 입력 받아 반전 처리한 동영상을 파일로 저장하는 과정을 실습합니다. |
+
+### drawing
+
+| file | fuction | explanation |
+| :--: | :-----: | ----------- |
+| main.cpp | drawLines() | 영상에 직선과 화살표, 그리고 drawMaker() 함수를 이용한 Maker 그리는 과정을 실습합니다. |
+| - | drawPolys() | 사각형, 원, 타원, 다각형을 영상에 그리는 과정을 실습합니다. |
+| drawLinesResult.png | - | main.cpp의 drawLines()를 실행시킨 결과 영상입니다. |
+| drawPolysResult.png | - | main.cpp의 drawPolys()를 실행시킨 결과 영상입니다. |
